@@ -45,6 +45,6 @@ namespace DeveloperSample.Container
             return (T)Activator.CreateInstance(reg.ImplementationType)!;
         }
     }
-      [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class SingletonAttribute : Attribute { }
 }

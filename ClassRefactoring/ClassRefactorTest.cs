@@ -7,30 +7,28 @@ namespace DeveloperSample.ClassRefactoring
         [Fact]
         public void AfricanSwallowHasCorrectSpeed()
         {
-            var swallow = new SwallowFactory().GetSwallow(SwallowType.African);
+            var swallow = SwallowFactory.GetSwallow(SwallowType.African, SwallowLoad.None);
             Assert.Equal(22, swallow.GetAirspeedVelocity());
         }
 
         [Fact]
         public void LadenAfricanSwallowHasCorrectSpeed()
         {
-            var swallow = new SwallowFactory().GetSwallow(SwallowType.African);
-            swallow.ApplyLoad(SwallowLoad.Coconut);
+            var swallow = SwallowFactory.GetSwallow(SwallowType.African, SwallowLoad.Coconut);
             Assert.Equal(18, swallow.GetAirspeedVelocity());
         }
 
         [Fact]
         public void EuropeanSwallowHasCorrectSpeed()
         {
-            var swallow = new SwallowFactory().GetSwallow(SwallowType.European);
+            var swallow = SwallowFactory.GetSwallow(SwallowType.European, SwallowLoad.None);
             Assert.Equal(20, swallow.GetAirspeedVelocity());
         }
 
         [Fact]
         public void LadenEuropeanSwallowHasCorrectSpeed()
         {
-            var swallow = new SwallowFactory().GetSwallow(SwallowType.European);
-            swallow.ApplyLoad(SwallowLoad.Coconut);
+            var swallow = SwallowFactory.GetSwallow(SwallowType.European, SwallowLoad.Coconut);
             Assert.Equal(16, swallow.GetAirspeedVelocity());
         }
     }

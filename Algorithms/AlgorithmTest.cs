@@ -4,7 +4,7 @@ namespace DeveloperSample.Algorithms
 {
     public class AlgorithmTest
     {
-      
+
         [Fact]
         public void CanGetFactorial()
         {

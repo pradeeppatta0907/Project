@@ -8,7 +8,7 @@ namespace DeveloperSample.Syncing
 {
     public class SyncTest
     {
-         [Fact]
+        [Fact]
         public async Task CanInitializeCollection()
         {
             var debug = new SyncDebug();
@@ -17,7 +17,7 @@ namespace DeveloperSample.Syncing
             Assert.Equal(items.Count, result.Count);
         }
 
-       [Fact]
+        [Fact]
         public void ItemsOnlyInitializeOnce()
         {
             var debug = new SyncDebug();

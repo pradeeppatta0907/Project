@@ -16,7 +16,7 @@ namespace DeveloperSample.Syncing
             var bag = new ConcurrentBag<string>();
             await Parallel.ForEachAsync(items, async (item, _) =>
             {
-                // simulate async work; replace Task.FromResult with real async logic if needed
+
                 var result = await Task.FromResult(item).ConfigureAwait(false);
                 bag.Add(result);
             }).ConfigureAwait(false);

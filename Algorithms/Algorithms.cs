@@ -20,7 +20,7 @@ namespace DeveloperSample.Algorithms
         }
 
         public static string FormatSeparators(params string[] items)
-{
+        {
     if (items == null || items.Length == 0)
         return string.Empty;
 
@@ -34,6 +34,6 @@ namespace DeveloperSample.Algorithms
             var prefix = string.Join(", ", items, 0, items.Length - 1);
             return $"{prefix} and {items[^1]}";
     }
-}
+    }
     }
 }
