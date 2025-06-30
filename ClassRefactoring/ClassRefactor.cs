@@ -32,25 +32,16 @@ namespace DeveloperSample.ClassRefactoring
             Load = load;
         }
 
-        public double GetAirspeedVelocity()
-        {
-            if (Type == SwallowType.African && Load == SwallowLoad.None)
-            {
-                return 22;
-            }
-            if (Type == SwallowType.African && Load == SwallowLoad.Coconut)
-            {
-                return 18;
-            }
-            if (Type == SwallowType.European && Load == SwallowLoad.None)
-            {
-                return 20;
-            }
-            if (Type == SwallowType.European && Load == SwallowLoad.Coconut)
-            {
-                return 16;
-            }
-            throw new InvalidOperationException();
-        }
+       public double GetAirspeedVelocity() =>
+    (Type, Load) switch
+    {
+        (SwallowType.African, SwallowLoad.None) or
+        (SwallowType.European, SwallowLoad.None) => Type == SwallowType.African ? 22 : 20,
+
+        (SwallowType.African, SwallowLoad.Coconut) or
+        (SwallowType.European, SwallowLoad.Coconut) => Type == SwallowType.African ? 18 : 16,
+
+        _ => throw new InvalidOperationException($"Unknown combination: {Type} carrying {Load}")
+    };
     }
 }

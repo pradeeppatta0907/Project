@@ -6,9 +6,17 @@ import LoginAttemptList from './LoginAttemptList';
 const App = () => {
   const [loginAttempts, setLoginAttempts] = useState([]);
 
+  const handleLoginSubmit = ({ login, password }) => {
+    console.log({ login, password });
+    setLoginAttempts((prev) => [
+      { login, password, timestamp: new Date().toLocaleString() },
+      ...prev
+    ]);
+  };
+
   return (
     <div className="App">
-      <LoginForm onSubmit={({ login, password }) => console.log({ login, password })} />
+      <LoginForm onSubmit={handleLoginSubmit} />
       <LoginAttemptList attempts={loginAttempts} />
     </div>
   );

@@ -9,42 +9,35 @@ namespace DeveloperSample.Syncing
 {
     public class SyncDebug
     {
-        public List<string> InitializeList(IEnumerable<string> items)
+        public async Task<List<string>> InitializeList(IEnumerable<string> items)
         {
+            if (items == null) throw new ArgumentNullException(nameof(items));
+
             var bag = new ConcurrentBag<string>();
-            Parallel.ForEach(items, async i =>
+            await Parallel.ForEachAsync(items, async (item, _) =>
             {
-                var r = await Task.Run(() => i).ConfigureAwait(false);
-                bag.Add(r);
-            });
-            var list = bag.ToList();
-            return list;
+                // simulate async work; replace Task.FromResult with real async logic if needed
+                var result = await Task.FromResult(item).ConfigureAwait(false);
+                bag.Add(result);
+            }).ConfigureAwait(false);
+
+            return bag.ToList();
         }
+
 
         public Dictionary<int, string> InitializeDictionary(Func<int, string> getItem)
         {
-            var itemsToInitialize = Enumerable.Range(0, 100).ToList();
+            if (getItem == null) throw new ArgumentNullException(nameof(getItem));
 
-            var concurrentDictionary = new ConcurrentDictionary<int, string>();
-            var threads = Enumerable.Range(0, 3)
-                .Select(i => new Thread(() => {
-                    foreach (var item in itemsToInitialize)
-                    {
-                        concurrentDictionary.AddOrUpdate(item, getItem, (_, s) => s);
-                    }
-                }))
-                .ToList();
+            var items = Enumerable.Range(0, 100);
+            var dict = new ConcurrentDictionary<int, string>();
 
-            foreach (var thread in threads)
+            Parallel.ForEach(items, item =>
             {
-                thread.Start();
-            }
-            foreach (var thread in threads)
-            {
-                thread.Join();
-            }
+                dict.TryAdd(item, getItem(item));
+            });
 
-            return concurrentDictionary.ToDictionary(kv => kv.Key, kv => kv.Value);
+            return dict.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
     }
 }
