@@ -9,25 +9,28 @@ namespace DeveloperSample.Syncing
 {
     public class SyncDebug
     {
-        public async Task<List<string>> InitializeList(IEnumerable<string> items)
-        {
-            if (items == null) throw new ArgumentNullException(nameof(items));
 
-            var bag = new ConcurrentBag<string>();
-            await Parallel.ForEachAsync(items, async (item, _) =>
-            {
+       // Runs synchronous work in parallel no async needed since there’s no I/O or async calls.
+        
+       public List<string> InitializeList(IEnumerable<string> items)
+       {
+           ArgumentNullException.ThrowIfNull(items);
 
-                var result = await Task.FromResult(item).ConfigureAwait(false);
-                bag.Add(result);
-            }).ConfigureAwait(false);
+           var bag = new ConcurrentBag<string>();
 
-            return bag.ToList();
-        }
+           Parallel.ForEach(items, bag.Add);
 
+          return bag.ToList();
+       }
 
+        
+
+        // Runs synchronous initialization in parallel using a synchronous getItem function.
+        // async/await is not used because getItem is not asynchronous.
+        
         public Dictionary<int, string> InitializeDictionary(Func<int, string> getItem)
         {
-            if (getItem == null) throw new ArgumentNullException(nameof(getItem));
+            ArgumentNullException.ThrowIfNull(getItem);
 
             var items = Enumerable.Range(0, 100);
             var dict = new ConcurrentDictionary<int, string>();
