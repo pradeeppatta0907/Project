@@ -1,19 +1,17 @@
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
-
 
 namespace DeveloperSample.Syncing
 {
     public class SyncTest
     {
         [Fact]
-        public async Task CanInitializeCollection()
+        public void CanInitializeCollection()
         {
             var debug = new SyncDebug();
             var items = new List<string> { "one", "two" };
-            var result = await debug.InitializeList(items);
+            var result = debug.InitializeList(items);
             Assert.Equal(items.Count, result.Count);
         }
 
@@ -24,7 +22,7 @@ namespace DeveloperSample.Syncing
             var count = 0;
             var dictionary = debug.InitializeDictionary(i =>
             {
-                Thread.Sleep(1);
+                Thread.Sleep(1); 
                 Interlocked.Increment(ref count);
                 return i.ToString();
             });
